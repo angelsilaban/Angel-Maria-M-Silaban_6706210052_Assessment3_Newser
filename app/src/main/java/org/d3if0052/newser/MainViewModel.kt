@@ -1,11 +1,12 @@
 package org.d3if0052.newser
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import android.util.Log
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.d3if0052.newser.db.NewsDao
 import org.d3if0052.newser.model.Berita
+import org.d3if0052.newser.network.BeritaApi
 
 class MainViewModel (db: NewsDao) : ViewModel() {
 //    val data = db.getAll()
@@ -13,6 +14,18 @@ class MainViewModel (db: NewsDao) : ViewModel() {
 
     init {
         data.value = initData()
+        retrieveData()
+    }
+
+    private fun retrieveData() {
+        viewModelScope.launch (Dispatchers.IO) {
+            try {
+                val result = BeritaApi.service.getBerita()
+                Log.d("MainViewModel", "Success: $result")
+            } catch (e: Exception) {
+                Log.d("MainViewModel", "Failure: ${e.message}")
+            }
+        }
     }
 
     private fun initData(): ArrayList<Berita> {
