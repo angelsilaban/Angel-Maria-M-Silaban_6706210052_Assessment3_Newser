@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
+import org.d3if0052.newser.R
 import org.d3if0052.newser.databinding.ActivityListBeritaBinding
 import org.d3if0052.newser.model.Berita
 
@@ -24,7 +25,7 @@ class MainAdapter(private var data: MutableList<Berita>) :
             titleTextView.text = berita.title
             descTextView.text = berita.desc
 
-            imageNarkoba.setImageResource(berita.image)
+            imageNarkoba.setImageResource(R.drawable.image_narkoba)
         }
     }
 
