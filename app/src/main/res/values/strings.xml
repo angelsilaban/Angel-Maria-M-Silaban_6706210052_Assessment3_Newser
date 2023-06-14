@@ -22,4 +22,5 @@
     <string name="grid">Ubah tampilan</string>
     <string name="noting_data">Tidak ada data</string>
     <string name="data">Saya Istri Mas Chakra</string>
+    <string name="koneksi_error">Koneksi error</string>
 </resources>

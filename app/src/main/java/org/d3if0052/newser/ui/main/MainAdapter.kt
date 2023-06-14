@@ -3,11 +3,12 @@ package org.d3if0052.newser.ui.main
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import org.d3if0052.newser.R
 import org.d3if0052.newser.databinding.ActivityListBeritaBinding
 import org.d3if0052.newser.model.Berita
+import org.d3if0052.newser.network.BeritaApi
 
 class MainAdapter(private var data: MutableList<Berita>) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
@@ -25,7 +26,12 @@ class MainAdapter(private var data: MutableList<Berita>) :
             titleTextView.text = berita.title
             descTextView.text = berita.desc
 
-            imageNarkoba.setImageResource(R.drawable.image_narkoba)
+            Glide.with(imageNarkoba.context)
+                .load(BeritaApi.getBeritaUrl(berita.image))
+                .error(R.drawable.ic_broken_image_24)
+                .into(imageNarkoba)
+
+            with(binding) { titleTextView.text = berita.title}
         }
     }
 
