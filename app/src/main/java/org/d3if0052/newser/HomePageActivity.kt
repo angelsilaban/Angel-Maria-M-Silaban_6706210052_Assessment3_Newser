@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.core.app.ActivityCompat
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import org.d3if0052.newser.databinding.ActivityHomePageBinding
@@ -17,10 +18,10 @@ import org.d3if0052.newser.requestberita.FragmentRequestBerita
 import org.d3if0052.newser.fragment.HomeFragment
 import org.d3if0052.newser.ui.main.history.HistoryFragment
 
-
 class HomePageActivity : AppCompatActivity() {
     companion object {
         const val CHANNEL_ID = "updater"
+        const val PERMISSION_REQUEST_CODE = 1
     }
 
     private lateinit var  binding : ActivityHomePageBinding
@@ -36,13 +37,12 @@ class HomePageActivity : AppCompatActivity() {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance)
             channel.description = getString(R.string.channel_desc)
+
             val manager = getSystemService(Context.NOTIFICATION_SERVICE)
                     as NotificationManager?
             manager?.createNotificationChannel(channel)
         }
-
         addFragment(HomeFragment())
-
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
@@ -59,7 +59,6 @@ class HomePageActivity : AppCompatActivity() {
         }
 
     }
-
     private fun addFragment(fragment: Fragment) {
 
         val fragmentManager = supportFragmentManager
