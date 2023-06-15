@@ -61,6 +61,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
             updateProgress(it)
         }
 
+        viewModel.scheduleUpdater(requireActivity().application)
+
         (activity as AppCompatActivity).supportActionBar?.title = "Newser"
         (activity as HomePageActivity).hideUpButton()
 
