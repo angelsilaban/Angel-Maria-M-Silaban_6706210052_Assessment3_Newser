@@ -10,15 +10,15 @@ import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.d3if0052.newser.HomePageActivity
-import org.d3if0052.newser.MainActivity
 import org.d3if0052.newser.MainViewModel
+import org.d3if0052.newser.MainViewModelFactory
 import org.d3if0052.newser.R
 import org.d3if0052.newser.databinding.FragmentHomeBinding
+import org.d3if0052.newser.db.NewsDatabase
 import org.d3if0052.newser.model.Berita
 
 import org.d3if0052.newser.network.ApiStatus
@@ -28,7 +28,8 @@ import org.d3if0052.newser.ui.main.MainAdapter
 class HomeFragment : Fragment(), View.OnClickListener {
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this)[MainViewModel::class.java]
+        val db = NewsDatabase.getInstance(requireContext())
+        ViewModelProvider(this, MainViewModelFactory(db.newsDao))[MainViewModel::class.java]
     }
 
     private lateinit var binding: FragmentHomeBinding
@@ -43,16 +44,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 
-        list = ArrayList()
+//        list = ArrayList()
+//        beritaAdapter = MainAdapter(list)
 //        list.addAll(getData())
-        beritaAdapter = MainAdapter(list)
 
-        with(binding.rvBerita) {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = beritaAdapter
-        }
 
-        beritaAdapter.run { notifyDataSetChanged() }
 
         return binding.root
 
@@ -61,12 +57,18 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getData().observe(viewLifecycleOwner) {
-            beritaAdapter.updateData(it)
+            beritaAdapter = MainAdapter(it)
+
+            with(binding.rvBerita) {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = beritaAdapter
+            }
+
+            beritaAdapter.run { notifyDataSetChanged() }
         }
         viewModel.getStatus().observe(viewLifecycleOwner) {
             updateProgress(it)
         }
-
         viewModel.scheduleUpdater(requireActivity().application)
 
         (activity as AppCompatActivity).supportActionBar?.title = "Newser"
@@ -99,7 +101,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     requestNotificationPermission()
                 }
-
             }
             ApiStatus.FAILED -> {
                 binding.progressBar.visibility = View.GONE

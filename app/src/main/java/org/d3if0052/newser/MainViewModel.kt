@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 
 class MainViewModel (db: NewsDao) : ViewModel() {
 //    val data = db.getAll()
-    private var data = MutableLiveData<ArrayList<Berita>>()
+    private var data = MutableLiveData<List<Berita>>()
     private val status = MutableLiveData<ApiStatus>()
 
     init {
@@ -37,7 +37,7 @@ class MainViewModel (db: NewsDao) : ViewModel() {
             }
         }
     }
-    fun getData(): LiveData<ArrayList<Berita>> = data
+    fun getData(): LiveData<List<Berita>> = data
     fun getStatus(): LiveData<ApiStatus> = status
 
     fun scheduleUpdater(app: Application) {

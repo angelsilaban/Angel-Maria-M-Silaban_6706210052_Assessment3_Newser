@@ -10,13 +10,13 @@ import org.d3if0052.newser.databinding.ActivityListBeritaBinding
 import org.d3if0052.newser.model.Berita
 import org.d3if0052.newser.network.BeritaApi
 
-class MainAdapter(private var data: MutableList<Berita>) :
+class MainAdapter(private var data: List<Berita>) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
-    fun updateData(newData: ArrayList<Berita>) {
-        data.clear()
-        data.addAll(newData)
-        notifyDataSetChanged()
-    }
+//    fun updateData(newData: ArrayList<Berita>) {
+//        data.clear()
+//        data.addAll(newData)
+//        notifyDataSetChanged()
+//    }
 
     class ViewHolder(
         private val binding: ActivityListBeritaBinding
