@@ -1,5 +1,9 @@
 package org.d3if0052.newser
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -15,6 +19,10 @@ import org.d3if0052.newser.ui.main.history.HistoryFragment
 
 
 class HomePageActivity : AppCompatActivity() {
+    companion object {
+        const val CHANNEL_ID = "updater"
+    }
+
     private lateinit var  binding : ActivityHomePageBinding
 
 
@@ -23,6 +31,15 @@ class HomePageActivity : AppCompatActivity() {
         binding = ActivityHomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance)
+            channel.description = getString(R.string.channel_desc)
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE)
+                    as NotificationManager?
+            manager?.createNotificationChannel(channel)
+        }
 
         addFragment(HomeFragment())
 

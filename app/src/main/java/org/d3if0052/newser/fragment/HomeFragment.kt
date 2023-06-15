@@ -1,19 +1,20 @@
 package org.d3if0052.newser.fragment
 
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.d3if0052.newser.HomePageActivity
 import org.d3if0052.newser.MainViewModel
 import org.d3if0052.newser.R
-import org.d3if0052.newser.data.SettingDataStore
-import org.d3if0052.newser.data.dataStore
 import org.d3if0052.newser.ui.main.MainAdapter
 import org.d3if0052.newser.databinding.FragmentHomeBinding
 import org.d3if0052.newser.model.Berita
@@ -50,6 +51,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         beritaAdapter.run { notifyDataSetChanged() }
 
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
